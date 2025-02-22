@@ -2,6 +2,7 @@
 import { IProduct } from "@/interfaces/IProduct";
 import { api } from "@/services/api";
 import { useQuery } from "@tanstack/react-query";
+import { useSearchParams } from "next/navigation";
 
 interface IGetProductsResponse {
   message: string;
@@ -16,9 +17,14 @@ interface IGetProductByIdResponse {
 }
 
 export const useProduct = () => {
+  const searchParams = useSearchParams();
+
   const { data: products } = useQuery<IGetProductsResponse>({
-    queryKey: ["products"],
-    queryFn: () => api.get("/products").then((res) => res.data),
+    queryKey: ["products", searchParams.get("page")],
+    queryFn: () =>
+      api
+        .get(`/products?limit=10&page=${searchParams.get("page") || 1}`)
+        .then((res) => res.data),
   });
 
   const getProductById = async (id: number) => {
