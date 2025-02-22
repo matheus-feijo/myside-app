@@ -1,26 +1,92 @@
 "use client";
 import { useProduct } from "@/hooks/useProduct";
-import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
+import styles from "./page.module.css";
 
 export default function Page() {
   const { products } = useProduct();
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const goToProduct = (id: number) => {
     router.push(`/${id}`);
   };
 
+  const handlePreviousPage = () => {
+    const currentPage = parseInt(searchParams.get("page") || "1");
+    const previousPage = currentPage - 1;
+    router.push(`/?page=${previousPage}`);
+  };
+
+  const handleNextPage = () => {
+    const currentPage = parseInt(searchParams.get("page") || "1");
+    const nextPage = currentPage + 1;
+    router.push(`/?page=${nextPage}`);
+  };
+
   return (
-    <div>
-      <main>
-        <ol>
+    <Suspense fallback={<div>Carregando...</div>}>
+      <main className={styles["main-page"]}>
+        <h1 className={styles["title-page"]}>Produtos</h1>
+        <div className={styles.divider} />
+        <ol className={styles["list-products"]}>
           {products?.products.map((product) => (
-            <li key={product.id} onClick={() => goToProduct(product.id)}>
-              {product.title}
+            <li
+              key={product.id}
+              onClick={() => goToProduct(product.id)}
+              className={styles["product-item"]}
+            >
+              <Image
+                src={product.image}
+                width={100}
+                height={100}
+                alt={`Imagem do produto ${product.title}`}
+                loading="lazy"
+              />
+              <div className={styles["container-info-product"]}>
+                <h2 className={styles["title-product"]}>{product.title}</h2>
+                <span className={styles["price-product"]}>
+                  Preço:{" "}
+                  {product.price.toLocaleString("pt-br", {
+                    style: "currency",
+                    currency: "BRL",
+                  })}
+                </span>
+                <p className={styles["description-product"]}>
+                  {product.description}
+                </p>
+              </div>
             </li>
           ))}
         </ol>
+
+        <div className={styles.pagination}>
+          <button
+            className={styles["page-button"]}
+            onClick={handlePreviousPage}
+            disabled={
+              !searchParams.get("page") || searchParams.get("page") === "1"
+            }
+          >
+            Anterior
+          </button>
+
+          {/* Como o endpoint nao informa o total de paginas, assumi que o maximo de itens é 150, de acordo
+            com oque estava na documentação.
+          */}
+          <button
+            className={styles["page-button"]}
+            onClick={handleNextPage}
+            disabled={
+              searchParams.get("page") === Math.ceil(150 / 10).toString()
+            }
+          >
+            Próximo
+          </button>
+        </div>
       </main>
-    </div>
+    </Suspense>
   );
 }
