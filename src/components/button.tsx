@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./button.style.module.css";
+import styles from "./button.module.css";
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "primary" | "secondary" | "default";
