@@ -65,17 +65,13 @@
 }
 
 .page-button {
-  transition: background-color 0.3s;
-  cursor: pointer;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background-color: white;
-  padding: 8px 12px;
-  color: #1f1e1e;
+  display: flex;
+  align-items: center;
 }
 
-.page-button:hover {
-  background-color: #e9ecef;
+.page-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .main-page {

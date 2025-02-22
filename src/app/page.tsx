@@ -1,5 +1,7 @@
 "use client";
+import { Button } from "@/components/button";
 import { useProduct } from "@/hooks/useProduct";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
@@ -63,28 +65,30 @@ export default function Page() {
         </ol>
 
         <div className={styles.pagination}>
-          <button
+          <Button
             className={styles["page-button"]}
             onClick={handlePreviousPage}
             disabled={
               !searchParams.get("page") || searchParams.get("page") === "1"
             }
+            variant="default"
           >
-            Anterior
-          </button>
+            <ChevronLeft width={16} /> Anterior
+          </Button>
 
           {/* Como o endpoint nao informa o total de paginas, assumi que o maximo de itens é 150, de acordo
             com oque estava na documentação.
           */}
-          <button
+          <Button
+            variant="primary"
             className={styles["page-button"]}
             onClick={handleNextPage}
             disabled={
               searchParams.get("page") === Math.ceil(150 / 10).toString()
             }
           >
-            Próximo
-          </button>
+            Próximo <ChevronRight width={16} />
+          </Button>
         </div>
       </main>
     </Suspense>
