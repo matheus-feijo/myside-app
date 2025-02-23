@@ -1,0 +1,48 @@
+/* Esconde o checkbox padrão */
+.customCheckbox input[type="checkbox"] {
+  display: none;
+}
+
+/* Estiliza o label como um quadrado personalizado */
+.customCheckbox label {
+  position: relative;
+  cursor: pointer;
+  padding-top: 2px;
+  padding-left: 30px;
+  color: #fff;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+}
+
+/* Cria o quadrado do checkbox */
+.customCheckbox label:before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 2px solid #007bff;
+  border-radius: 4px;
+  background-color: #fff;
+  width: 20px;
+  height: 20px;
+  content: "";
+}
+
+/* Estiliza o check quando marcado */
+.customCheckbox input[type="checkbox"]:checked + label:before {
+  background-color: #007bff;
+}
+
+/* Adiciona o símbolo de check */
+.customCheckbox input[type="checkbox"]:checked + label:after {
+  position: absolute;
+  top: 0;
+  left: 4px;
+  content: "✔";
+  color: white;
+  font-size: 14px;
+}
+
+/* Efeito ao passar o mouse */
+.customCheckbox label:hover:before {
+  border-color: #0056b3;
+}
