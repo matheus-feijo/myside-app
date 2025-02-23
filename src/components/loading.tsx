@@ -1,4 +1,4 @@
-import styles from "./Loading.module.css";
+import styles from "./loading.module.css";
 
 type LoadingProps = {
   size?: "small" | "medium" | "large";
