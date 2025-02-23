@@ -93,7 +93,9 @@ export default function Page() {
             name="name"
             placeholder="Digite o nome do produto"
           />
-          <Button onClick={handleSearchByName}>Buscar</Button>
+          <Button onClick={handleSearchByName} variant="primary">
+            Buscar
+          </Button>
         </div>
 
         <div className={styles["container-category"]}>
