@@ -29,6 +29,11 @@
   width: 100%;
 }
 
+.container-category {
+  display: flex;
+  gap: 10px;
+}
+
 .message-product-not-found {
   display: flex;
   justify-content: center;
