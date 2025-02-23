@@ -1,8 +1,12 @@
 "use client";
+import { Button } from "@/components/button";
+import { Loading } from "@/components/loading";
 import { useProduct } from "@/hooks/useProduct";
+import { formatCurrency } from "@/utils/format-currency";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useParams } from "next/navigation";
+import styles from "./page.module.css";
 
 export default function Page() {
   const { id } = useParams();
@@ -13,38 +17,59 @@ export default function Page() {
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["product"],
+    queryKey: ["product", id],
     queryFn: () => getProductById(Number(id)).then((res) => res.product),
     enabled: !!id,
   });
 
   if (isLoading) {
-    return <div>Carregando...</div>;
+    return (
+      <div className={styles["feedback-container"]}>
+        <Loading size="large" />
+      </div>
+    );
   }
 
   if (isError) {
-    return <div>Erro ao carregar</div>;
+    return (
+      <div className={styles["feedback-container"]}>
+        <p>Erro ao carregar.</p>
+      </div>
+    );
   }
 
   return (
-    <div>
-      <main>
-        <h1>{product?.title}</h1>
-        <p>{product?.category}</p>
-
+    <div className={styles.container}>
+      {/* Imagem do produto */}
+      <div className={styles["product-image"]}>
         <Image
           src={product?.image || ""}
           alt={`Imagem do produto ${product?.title}`}
-          width={100}
-          height={100}
+          width={500}
+          height={500}
+          className={styles.image}
         />
+      </div>
 
-        <p>{product?.price}</p>
-
-        <p>{product?.description}</p>
-
-        <p>{product?.brand}</p>
-      </main>
+      {/* Detalhes do produto */}
+      <div className={styles["product-details"]}>
+        <h1 className={styles["product-name"]}>{product?.title}</h1>
+        <p className={styles["product-price"]}>
+          {formatCurrency(product?.price || 0)}
+        </p>
+        <p className={styles["product-category"]}>
+          <strong>Categoria:</strong> {product?.category}
+        </p>
+        <p className={styles["product-brand"]}>
+          <strong>Marca:</strong> {product?.brand}
+        </p>
+        <p className={styles["product-description"]}>{product?.description}</p>
+        <div className={styles["button-container"]}>
+          <Button variant="secondary" onClick={() => window.history.back()}>
+            Voltar
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }
