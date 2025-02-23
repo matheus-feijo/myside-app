@@ -34,7 +34,7 @@ export default function Page() {
       name,
     ],
     queryFn: async () => {
-      if (name) {
+      if (name && !searchParams.get("category")) {
         const { data } = await api.get<{
           products: IProduct[];
         }>("/products");
@@ -51,7 +51,13 @@ export default function Page() {
           products: IProduct[];
         }>(`/products/category?type=${searchParams.get("category")}`);
 
-        return data.products;
+        const filteredProducts = name
+          ? data.products.filter((product) =>
+              product.title.toLowerCase().includes(name.toLowerCase())
+            )
+          : data.products;
+
+        return filteredProducts;
       }
 
       const { data } = await api.get<{
