@@ -151,9 +151,7 @@ export default function Page() {
             {/* Pagination somente ativo quando nao tiver filtro pois API não possui suporte para 
               paginação de produtos com filtros
             */}
-            {(searchParams.get("page") || !searchParams.get("category")) && (
-              <Pagination />
-            )}
+            {!name && !searchParams.get("category") && <Pagination />}
           </>
         )}
 
