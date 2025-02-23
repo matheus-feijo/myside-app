@@ -48,6 +48,7 @@ export default function Page() {
           width={500}
           height={500}
           className={styles.image}
+          loading="lazy"
         />
       </div>
 
