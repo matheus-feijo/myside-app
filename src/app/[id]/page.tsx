@@ -1,6 +1,7 @@
 "use client";
 import { useProduct } from "@/hooks/useProduct";
 import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
 import { useParams } from "next/navigation";
 
 export default function Page() {
@@ -13,7 +14,7 @@ export default function Page() {
     isError,
   } = useQuery({
     queryKey: ["product"],
-    queryFn: () => getProductById(Number(id)),
+    queryFn: () => getProductById(Number(id)).then((res) => res.product),
     enabled: !!id,
   });
 
@@ -27,7 +28,23 @@ export default function Page() {
 
   return (
     <div>
-      <main>{product?.product.title}</main>
+      <main>
+        <h1>{product?.title}</h1>
+        <p>{product?.category}</p>
+
+        <Image
+          src={product?.image || ""}
+          alt={`Imagem do produto ${product?.title}`}
+          width={100}
+          height={100}
+        />
+
+        <p>{product?.price}</p>
+
+        <p>{product?.description}</p>
+
+        <p>{product?.brand}</p>
+      </main>
     </div>
   );
 }
