@@ -17,16 +17,15 @@ export default function Page() {
     data: products,
     isLoading,
     isError,
-  } = useQuery<{
-    message: string;
-    products: IProduct[];
-    status: string;
-  }>({
+  } = useQuery({
     queryKey: ["products", searchParams.get("page")],
-    queryFn: () =>
-      api
-        .get(`/products?limit=10&page=${searchParams.get("page") || 1}`)
-        .then((res) => res.data),
+    queryFn: async () => {
+      const { data } = await api.get<{
+        products: IProduct[];
+      }>(`/products?limit=10&page=${searchParams.get("page") || 1}`);
+
+      return data.products;
+    },
   });
 
   const goToProduct = (id: number) => {
@@ -78,7 +77,7 @@ export default function Page() {
         {!isLoading && !isError && (
           <>
             <ol className={styles["list-products"]}>
-              {products?.products.map((product) => (
+              {products?.map((product) => (
                 <li
                   key={product.id}
                   onClick={() => goToProduct(product.id)}
@@ -102,7 +101,9 @@ export default function Page() {
                       })}
                     </span>
                     <p className={styles["description-product"]}>
-                      {product.description}
+                      {product.description.length > 200
+                        ? product.description.substring(0, 200) + "..."
+                        : product.description}
                     </p>
                   </div>
                 </li>
