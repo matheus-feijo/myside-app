@@ -3,6 +3,7 @@ import { Button } from "@/components/button";
 import { Loading } from "@/components/loading";
 import { IProduct } from "@/interfaces/IProduct";
 import { api } from "@/services/api";
+import { formatCurrency } from "@/utils/format-currency";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
@@ -94,11 +95,7 @@ export default function Page() {
                   <div className={styles["container-info-product"]}>
                     <h2 className={styles["title-product"]}>{product.title}</h2>
                     <span className={styles["price-product"]}>
-                      Preço:{" "}
-                      {product.price.toLocaleString("pt-br", {
-                        style: "currency",
-                        currency: "BRL",
-                      })}
+                      Preço: {formatCurrency(product.price)}
                     </span>
                     <p className={styles["description-product"]}>
                       {product.description.length > 200
