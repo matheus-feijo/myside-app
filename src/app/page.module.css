@@ -20,6 +20,23 @@
   min-height: 50vh;
 }
 
+.container-search-product {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  width: 100%;
+}
+
+.message-product-not-found {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  gap: 6px;
+  font-size: 18px;
+}
+
 @media screen and (max-width: 768px) {
   .list-products {
     width: 100%;
