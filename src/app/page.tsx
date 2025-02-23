@@ -6,6 +6,7 @@ import { Header } from "@/components/header";
 import { Input } from "@/components/input";
 import { Loading } from "@/components/loading";
 import { Pagination } from "@/components/pagination";
+import { RevealItem } from "@/components/reveal-item";
 import { IProduct } from "@/interfaces/IProduct";
 import { api } from "@/services/api";
 import { useQuery } from "@tanstack/react-query";
@@ -135,14 +136,18 @@ export default function Page() {
           <>
             <ol className={styles["list-products"]}>
               {products?.map((product) => (
-                <CardItem key={product.id} product={product} />
+                <RevealItem key={product.id}>
+                  <CardItem product={product} />
+                </RevealItem>
               ))}
             </ol>
 
             {/* Pagination somente ativo quando nao tiver filtro pois API não possui suporte para 
               paginação de produtos com filtros
             */}
-            {searchParams.get("page") && <Pagination />}
+            {(searchParams.get("page") || !searchParams.get("category")) && (
+              <Pagination />
+            )}
           </>
         )}
 
