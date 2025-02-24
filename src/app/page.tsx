@@ -15,13 +15,7 @@ import styles from "./page.module.css";
 export default function Page() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const {
-    isLoadingProductList,
-    isErrorProductList,
-    productList,
-    name,
-    setName,
-  } = useProduct();
+  const { isLoadingProductList, productList, name, setName } = useProduct();
 
   const nameRef = useRef<HTMLInputElement>(null);
 
@@ -87,33 +81,32 @@ export default function Page() {
           </div>
         )}
 
-        {!isLoadingProductList && isErrorProductList && (
-          <div className={styles["container-feedback"]}>
-            <h1>Erro ao carregar</h1>
-            <Button onClick={() => window.location.reload()}>
-              Recarregar a página
-            </Button>
-          </div>
+        {!isLoadingProductList && (
+          <>
+            {productList.length === 0 && (
+              <div className={styles["container-feedback"]}>
+                <h1>Nenhum produto encontrado</h1>
+              </div>
+            )}
+
+            {productList.length > 0 && (
+              <>
+                <ol className={styles["list-products"]}>
+                  {productList.map((product) => (
+                    <RevealItem key={product.id}>
+                      <CardItem product={product} />
+                    </RevealItem>
+                  ))}
+                </ol>
+
+                {/* Pagination somente ativo quando nao tiver filtro pois API não possui suporte para 
+                  paginação de produtos com filtros*/}
+
+                {!name && !searchParams.get("category") && <Pagination />}
+              </>
+            )}
+          </>
         )}
-
-        {!isLoadingProductList &&
-          !isErrorProductList &&
-          productList.length > 0 && (
-            <>
-              <ol className={styles["list-products"]}>
-                {productList.map((product) => (
-                  <RevealItem key={product.id}>
-                    <CardItem product={product} />
-                  </RevealItem>
-                ))}
-              </ol>
-
-              {/* Pagination somente ativo quando nao tiver filtro pois API não possui suporte para 
-              paginação de produtos com filtros
-            */}
-              {!name && !searchParams.get("category") && <Pagination />}
-            </>
-          )}
       </main>
     </>
   );

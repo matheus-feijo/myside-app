@@ -15,11 +15,7 @@ export const useProduct = () => {
   const searchParams = useSearchParams();
   const [name, setName] = useState("");
 
-  const {
-    data: productList,
-    isLoading: isLoadingProductList,
-    isError: isErrorProductList,
-  } = useQuery({
+  const { data: productList, isLoading: isLoadingProductList } = useQuery({
     queryKey: [
       "products",
       searchParams.get("category"),
@@ -71,7 +67,6 @@ export const useProduct = () => {
     getProductById,
     productList,
     isLoadingProductList,
-    isErrorProductList,
     name,
     setName,
   };
