@@ -8,12 +8,17 @@
 }
 
 .primary {
-  background-color: #007bff;
+  background-color: #fb414e;
   color: white;
 }
 
 .primary:hover {
-  background-color: #0056b3;
+  background-color: #e13a46;
+}
+
+.primary:disabled {
+  cursor: not-allowed;
+  background-color: #e13a46;
 }
 
 .secondary {
@@ -22,6 +27,11 @@
 }
 
 .secondary:hover {
+  background-color: #545b62;
+}
+
+.secondary:disabled {
+  cursor: not-allowed;
   background-color: #545b62;
 }
 
@@ -34,7 +44,7 @@
   background-color: #e2e6ea;
 }
 
-.button:disabled {
+.default:disabled {
   cursor: not-allowed;
-  background-color: #d6d6d6;
+  background-color: #e2e6ea;
 }

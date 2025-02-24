@@ -45,7 +45,7 @@ export function Pagination() {
   com oque estava na documentação.
 */}
         <Button
-          variant="secondary"
+          variant="primary"
           className={styles["page-button"]}
           onClick={handleNextPage}
           disabled={searchParams.get("page") === Math.ceil(150 / 10).toString()}

@@ -18,15 +18,15 @@
   transition:
     background 0.3s,
     border-color 0.3s;
-  border: 2px solid #007bff;
+  border: 2px solid #fb414e;
   border-radius: 4px;
   width: 20px;
   height: 20px;
 }
 
 .checkbox-input:checked + .checkbox-custom {
-  border-color: #0056b3;
-  background-color: #007bff;
+  border-color: #fb414e;
+  background-color: #fb414e;
 }
 
 .checkbox-custom::after {
