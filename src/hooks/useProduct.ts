@@ -55,7 +55,6 @@ export const useProduct = () => {
 
       return data.products;
     },
-    initialData: [],
   });
 
   const getProductById = async (id: number) => {
@@ -65,7 +64,7 @@ export const useProduct = () => {
 
   return {
     getProductById,
-    productList,
+    productList: productList || [],
     isLoadingProductList,
     name,
     setName,
