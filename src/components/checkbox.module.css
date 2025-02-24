@@ -1,4 +1,4 @@
-.checkboxContainer {
+.checkbox-container {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -7,11 +7,11 @@
   user-select: none;
 }
 
-.checkboxInput {
+.checkbox-input {
   display: none;
 }
 
-.checkboxCustom {
+.checkbox-custom {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,19 +24,19 @@
   height: 20px;
 }
 
-.checkboxInput:checked + .checkboxCustom {
+.checkbox-input:checked + .checkbox-custom {
   border-color: #0056b3;
   background-color: #007bff;
 }
 
-.checkboxCustom::after {
+.checkbox-custom::after {
   display: none;
   content: "✔";
   color: white;
   font-size: 14px;
 }
 
-.checkboxInput:checked + .checkboxCustom::after {
+.checkbox-input:checked + .checkbox-custom::after {
   display: block;
 }
 
