@@ -8,7 +8,7 @@ export function Pagination() {
   const searchParams = useSearchParams();
 
   const handlePreviousPage = () => {
-    scrollTo({
+    window.scrollTo({
       behavior: "smooth",
       top: 0,
     });
@@ -18,7 +18,7 @@ export function Pagination() {
   };
 
   const handleNextPage = () => {
-    scrollTo({
+    window.scrollTo({
       behavior: "smooth",
       top: 0,
     });
