@@ -3,17 +3,15 @@
   align-items: center;
   gap: 16px;
   cursor: pointer;
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
   border-radius: 8px;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  -ms-border-radius: 8px;
-  -o-border-radius: 8px;
+  background-color: #fff;
   padding: 16px;
+  color: #1f1e1e;
 }
 
 .product-item:hover {
-  background-color: #1f1e1e;
+  background-color: #ddd;
 }
 
 .container-info-product {
