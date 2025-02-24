@@ -6,9 +6,9 @@
 
 ```
 📦 mysyde-app
-├── 📂 src          # Código-fonte principal
+├── 📂 src         
 │   ├── 📂 components  # Componentes reutilizáveis
-│   ├── 📂 app       # Páginas principais da aplicação
+│   ├── 📂 app         # Páginas da aplicação
 │   ├── 📂 services    # Funções para chamadas de API
 │   ├── 📂 utils       # Utilitários
 │   ├── 📂 hooks       # Hooks personalizados
