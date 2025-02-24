@@ -57,7 +57,7 @@ export default function Page() {
         <div className={styles["container-category"]}>
           <p>Categoria:</p>
 
-          <div className={styles["container-category"]}>
+          <div className={styles["container-category-checkbox"]}>
             <Checkbox
               onChange={() => handleSearchByCategory("tv")}
               name="tv"
