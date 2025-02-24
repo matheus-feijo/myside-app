@@ -7,67 +7,24 @@ import { Input } from "@/components/input";
 import { Loading } from "@/components/loading";
 import { Pagination } from "@/components/pagination";
 import { RevealItem } from "@/components/reveal-item";
-import { IProduct } from "@/interfaces/IProduct";
-import { api } from "@/services/api";
-import { useQuery } from "@tanstack/react-query";
+import { useProduct } from "@/hooks/useProduct";
 import { Frown } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import styles from "./page.module.css";
 
 export default function Page() {
   const searchParams = useSearchParams();
   const router = useRouter();
-
-  const [name, setName] = useState("");
-  const nameRef = useRef<HTMLInputElement>(null);
-
   const {
-    data: products,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: [
-      "products",
-      searchParams.get("category"),
-      searchParams.get("page"),
-      name,
-    ],
-    queryFn: async () => {
-      if (name && !searchParams.get("category")) {
-        const { data } = await api.get<{
-          products: IProduct[];
-        }>("/products");
+    isLoadingProductList,
+    isErrorProductList,
+    productList,
+    name,
+    setName,
+  } = useProduct();
 
-        const filteredProducts = data.products.filter((product) =>
-          product.title.toLowerCase().includes(name.toLowerCase())
-        );
-
-        return filteredProducts;
-      }
-
-      if (searchParams.get("category")) {
-        const { data } = await api.get<{
-          products: IProduct[];
-        }>(`/products/category?type=${searchParams.get("category")}`);
-
-        const filteredProducts = name
-          ? data.products.filter((product) =>
-              product.title.toLowerCase().includes(name.toLowerCase())
-            )
-          : data.products;
-
-        return filteredProducts;
-      }
-
-      const { data } = await api.get<{
-        products: IProduct[];
-      }>(`/products?limit=10&page=${searchParams.get("page") || 1}`);
-
-      return data.products;
-    },
-    initialData: [],
-  });
+  const nameRef = useRef<HTMLInputElement>(null);
 
   const handleSearchByName = () => {
     setName(nameRef.current?.value || "");
@@ -125,13 +82,13 @@ export default function Page() {
           </div>
         </div>
 
-        {isLoading && (
+        {isLoadingProductList && (
           <div className={styles["container-feedback"]}>
             <Loading size="large" />
           </div>
         )}
 
-        {!isLoading && isError && (
+        {!isLoadingProductList && isErrorProductList && (
           <div className={styles["container-feedback"]}>
             <h1>Erro ao carregar</h1>
             <Button onClick={() => window.location.reload()}>
@@ -140,30 +97,35 @@ export default function Page() {
           </div>
         )}
 
-        {!isLoading && !isError && products.length > 0 && (
-          <>
-            <ol className={styles["list-products"]}>
-              {products?.map((product) => (
-                <RevealItem key={product.id}>
-                  <CardItem product={product} />
-                </RevealItem>
-              ))}
-            </ol>
+        {!isLoadingProductList &&
+          !isErrorProductList &&
+          productList.length > 0 && (
+            <>
+              <ol className={styles["list-products"]}>
+                {productList.map((product) => (
+                  <RevealItem key={product.id}>
+                    <CardItem product={product} />
+                  </RevealItem>
+                ))}
+              </ol>
 
-            {/* Pagination somente ativo quando nao tiver filtro pois API não possui suporte para 
+              {/* Pagination somente ativo quando nao tiver filtro pois API não possui suporte para 
               paginação de produtos com filtros
             */}
-            {!name && !searchParams.get("category") && <Pagination />}
-          </>
-        )}
+              {!name && !searchParams.get("category") && <Pagination />}
+            </>
+          )}
 
-        {!isLoading && !isError && name && products.length === 0 && (
-          <div className={styles["container-feedback"]}>
-            <p className={styles["message-product-not-found"]}>
-              Nenhum Produto Encontrado. <Frown />
-            </p>
-          </div>
-        )}
+        {!isLoadingProductList &&
+          !isErrorProductList &&
+          name &&
+          productList.length === 0 && (
+            <div className={styles["container-feedback"]}>
+              <p className={styles["message-product-not-found"]}>
+                Nenhum Produto Encontrado. <Frown />
+              </p>
+            </div>
+          )}
       </main>
     </>
   );

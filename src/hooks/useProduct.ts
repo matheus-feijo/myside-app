@@ -3,12 +3,7 @@ import { IProduct } from "@/interfaces/IProduct";
 import { api } from "@/services/api";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
-
-interface IGetProductsResponse {
-  message: string;
-  products: IProduct[];
-  status: string;
-}
+import { useState } from "react";
 
 interface IGetProductByIdResponse {
   message: string;
@@ -18,13 +13,53 @@ interface IGetProductByIdResponse {
 
 export const useProduct = () => {
   const searchParams = useSearchParams();
+  const [name, setName] = useState("");
 
-  const { data: products } = useQuery<IGetProductsResponse>({
-    queryKey: ["products", searchParams.get("page")],
-    queryFn: () =>
-      api
-        .get(`/products?limit=10&page=${searchParams.get("page") || 1}`)
-        .then((res) => res.data),
+  const {
+    data: productList,
+    isLoading: isLoadingProductList,
+    isError: isErrorProductList,
+  } = useQuery({
+    queryKey: [
+      "products",
+      searchParams.get("category"),
+      searchParams.get("page"),
+      name,
+    ],
+    queryFn: async () => {
+      if (name && !searchParams.get("category")) {
+        const { data } = await api.get<{
+          products: IProduct[];
+        }>("/products");
+
+        const filteredProducts = data.products.filter((product) =>
+          product.title.toLowerCase().includes(name.toLowerCase())
+        );
+
+        return filteredProducts;
+      }
+
+      if (searchParams.get("category")) {
+        const { data } = await api.get<{
+          products: IProduct[];
+        }>(`/products/category?type=${searchParams.get("category")}`);
+
+        const filteredProducts = name
+          ? data.products.filter((product) =>
+              product.title.toLowerCase().includes(name.toLowerCase())
+            )
+          : data.products;
+
+        return filteredProducts;
+      }
+
+      const { data } = await api.get<{
+        products: IProduct[];
+      }>(`/products?limit=10&page=${searchParams.get("page") || 1}`);
+
+      return data.products;
+    },
+    initialData: [],
   });
 
   const getProductById = async (id: number) => {
@@ -32,5 +67,12 @@ export const useProduct = () => {
     return data;
   };
 
-  return { products, getProductById };
+  return {
+    getProductById,
+    productList,
+    isLoadingProductList,
+    isErrorProductList,
+    name,
+    setName,
+  };
 };
