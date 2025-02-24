@@ -8,7 +8,6 @@ import { Loading } from "@/components/loading";
 import { Pagination } from "@/components/pagination";
 import { RevealItem } from "@/components/reveal-item";
 import { useProduct } from "@/hooks/useProduct";
-import { Frown } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useRef } from "react";
 import styles from "./page.module.css";
@@ -114,17 +113,6 @@ export default function Page() {
             */}
               {!name && !searchParams.get("category") && <Pagination />}
             </>
-          )}
-
-        {!isLoadingProductList &&
-          !isErrorProductList &&
-          name &&
-          productList.length === 0 && (
-            <div className={styles["container-feedback"]}>
-              <p className={styles["message-product-not-found"]}>
-                Nenhum Produto Encontrado. <Frown />
-              </p>
-            </div>
           )}
       </main>
     </>

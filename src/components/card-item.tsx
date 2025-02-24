@@ -22,7 +22,7 @@ export function CardItem({ product }: { product: IProduct }) {
         width={100}
         height={100}
         alt={`Imagem do produto ${product.title}`}
-        loading="lazy"
+        loading="eager"
         className={styles.image}
       />
       <div className={styles["container-info-product"]}>

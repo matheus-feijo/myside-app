@@ -48,7 +48,8 @@ export default function Page() {
           width={400}
           height={400}
           className={styles.image}
-          loading="lazy"
+          loading="eager"
+          priority
         />
       </div>
 
