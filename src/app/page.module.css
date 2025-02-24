@@ -21,6 +21,10 @@
   min-height: 50vh;
 }
 
+.container-feedback h1 {
+  font-size: 24px;
+}
+
 .container-search-product {
   display: flex;
   justify-content: center;
