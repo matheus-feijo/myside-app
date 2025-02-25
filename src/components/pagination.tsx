@@ -48,7 +48,9 @@ export function Pagination() {
           variant="primary"
           className={styles["page-button"]}
           onClick={handleNextPage}
-          disabled={searchParams.get("page") === Math.ceil(150 / 10).toString()}
+          disabled={
+            parseInt(searchParams.get("page") || "1") >= Math.ceil(150 / 10)
+          }
         >
           Próximo <ChevronRight width={16} />
         </Button>
