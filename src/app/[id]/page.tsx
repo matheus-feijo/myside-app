@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
+import toast from "react-hot-toast";
 import styles from "./page.module.css";
 
 export default function Page() {
@@ -27,12 +28,15 @@ export default function Page() {
 
   const handleAddToCart = () => {
     if (cart.some((item) => item.product.id === product?.id)) {
-      alert("Produto já adicionado ao carrinho.");
+      toast.error("Produto já foi adicionado ao carrinho.", { id: "cart" });
       return;
     }
 
     if (product) {
       setCart([...cart, { product }]);
+      toast.success("Produto adicionado ao carrinho com sucesso!", {
+        id: "cart",
+      });
     }
   };
 
