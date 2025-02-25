@@ -1,3 +1,4 @@
+import { useCart } from "@/hooks/useCart";
 import { IProduct } from "@/interfaces/IProduct";
 import { formatCurrency } from "@/utils/format-currency";
 import Image from "next/image";
@@ -6,6 +7,7 @@ import styles from "./card-item.module.css";
 
 export function CardItem({ product }: { product: IProduct }) {
   const router = useRouter();
+  const { cart } = useCart();
 
   const goToProduct = (id: number) => {
     router.push(`/${id}`);
@@ -35,6 +37,12 @@ export function CardItem({ product }: { product: IProduct }) {
             ? product.description.substring(0, 200) + "..."
             : product.description}
         </p>
+
+        {cart.some((item) => item.product.id === product.id) && (
+          <span className={styles["product-added"]}>
+            Adicionado ao carrinho
+          </span>
+        )}
       </div>
     </li>
   );

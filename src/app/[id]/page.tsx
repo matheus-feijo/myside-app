@@ -1,9 +1,11 @@
 "use client";
 import { Button } from "@/components/button";
 import { Loading } from "@/components/loading";
+import { useCart } from "@/hooks/useCart";
 import { useProduct } from "@/hooks/useProduct";
 import { formatCurrency } from "@/utils/format-currency";
 import { useQuery } from "@tanstack/react-query";
+import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import styles from "./page.module.css";
@@ -11,6 +13,7 @@ import styles from "./page.module.css";
 export default function Page() {
   const { id } = useParams();
   const { getProductById } = useProduct();
+  const { setCart, cart } = useCart();
 
   const {
     data: product,
@@ -21,6 +24,17 @@ export default function Page() {
     queryFn: () => getProductById(Number(id)).then((res) => res.product),
     enabled: !!id,
   });
+
+  const handleAddToCart = () => {
+    if (cart.some((item) => item.product.id === product?.id)) {
+      alert("Produto já adicionado ao carrinho.");
+      return;
+    }
+
+    if (product) {
+      setCart([...cart, { product }]);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -67,8 +81,11 @@ export default function Page() {
         </p>
         <p className={styles["product-description"]}>{product?.description}</p>
         <div className={styles["button-container"]}>
-          <Button variant="secondary" onClick={() => window.history.back()}>
+          <Button variant="default" onClick={() => window.history.back()}>
             Voltar
+          </Button>
+          <Button onClick={handleAddToCart} variant="primary">
+            Adicionar ao carrinho <ShoppingCart />
           </Button>
         </div>
       </div>
