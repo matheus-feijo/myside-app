@@ -6,7 +6,6 @@ import { Header } from "@/components/header";
 import { Input } from "@/components/input";
 import { Loading } from "@/components/loading";
 import { Pagination } from "@/components/pagination";
-import { RevealItem } from "@/components/reveal-item";
 import { useProduct } from "@/hooks/useProduct";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useRef } from "react";
@@ -93,9 +92,7 @@ export default function Page() {
               <>
                 <ol className={styles["list-products"]}>
                   {productList.map((product) => (
-                    <RevealItem key={product.id}>
-                      <CardItem product={product} />
-                    </RevealItem>
+                    <CardItem key={product.id} product={product} />
                   ))}
                 </ol>
 
